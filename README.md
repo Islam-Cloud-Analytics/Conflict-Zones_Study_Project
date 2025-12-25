@@ -1,23 +1,26 @@
 # Conflict-Zones_Study_Project
---In an epic quest to hone my SQL skills based on real life data.
---Feel free to reach out to me for advice; it shall be appreciated.
-
-                          Project Rules
+In an epic quest to hone my SQL skills based on real life data.
+Feel free to reach out to me for advice; it shall be appreciated.
+Data from https://acleddata.com/
+                        <!-- Project Rules -->
 **Naming Standards:**
---All Tables will be formatted as such:
---Dimensional tables: dim_table_name
---Fact tables: fact_table_name
---All table names will be LOWER CASE
+<!--All Tables will be formatted as such:-->
+<!--Dimensional tables: dim_<table_name>-->
+<!--Fact tables: fact_<table_name>-->
+<!--All table names will be LOWER CASE-->
+<!--Columns: <column_name>-->
 **SQL Querying:**
---All operators will be UPPER CASE
---Ensure separating commands into separate lines when possible for readibility
+<!--All operators must be UPPER CASE-->
+<!--One clause per line-->
+<!--Avoid SELECT *
+<!--Dashboards are only based on gold layer table-->
 **Data Architecture**
-This project will implement Midallion Architecure on an already cleaned table (silver layer)
+<!--This project will implement Medallion Architecture on an already cleaned table (silver layer)-->
 **Geopolitical Psycho-Analysis**
---Cities (Administrative areas) with the most fatalities in the past 5 years
---Preventative action: Find Cities (Administrative areas) where Riots have an upward tendency for the past 2 years
---Preventative action: Cities (Administrative areas) where protests have an upward tendency for the past 2 years
---Compare countries based on violent protests (Any thing not peaceful)
---Compare countries based on downward trend riots
---What are the deductions?
---What are the sugested solutions?
+<!--Cities (Administrative areas) with the most fatalities in the past 5 years-->
+<!--Preventative action: Find Cities (Administrative areas) where Riots have an upward tendency for the past 2 years-->
+<!--Preventative action: Cities (Administrative areas) where protests have an upward tendency for the past 2 years-->
+<!--Compare countries based on violent protests (Any thing not peaceful)-->
+<!--Compare countries based on downward trend riots-->
+<!--What are the deductions?-->
+<!--What are the sugested solutions?-->
