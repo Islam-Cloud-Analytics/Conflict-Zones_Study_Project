@@ -1,7 +1,8 @@
 # Conflict-Zones_Study_Project
 In an epic quest to hone my SQL skills based on real life data.
 Feel free to reach out to me for advice; it shall be appreciated.
-#################################Project Rules###############################################
+
+                          Project Rules
 **Naming Standards:**
 All Tables will be formatted as such:
 Dimensional tables: dim_table_name
