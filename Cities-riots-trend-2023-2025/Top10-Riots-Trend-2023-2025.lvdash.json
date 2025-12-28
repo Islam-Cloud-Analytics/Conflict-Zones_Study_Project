@@ -1,0 +1,103 @@
+{
+  "datasets": [
+    {
+      "name": "79b60393",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `data_analysis_study_project`;\n",
+        "\n",
+        "SELECT \n",
+        "  COUNTRY, \n",
+        "  ADMIN1 AS CITY, \n",
+        "  to_date(WEEK, 'dd-MMMM-yyyy') AS event_week, \n",
+        "  COUNT(*) AS riot_event_count\n",
+        "FROM workspace.data_analysis_study_project.`me-conflict-zones-study-project`\n",
+        "WHERE EVENT_TYPE = 'Riots'\n",
+        "  AND (WEEK LIKE '%2023%' OR WEEK LIKE '%2024%')\n",
+        "GROUP BY COUNTRY, CITY, event_week\n",
+        "ORDER BY COUNTRY, CITY, event_week"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "d801a256",
+      "displayName": "Riots Trend 23-25",
+      "layout": [
+        {
+          "widget": {
+            "name": "9fd6f9d3",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "79b60393",
+                  "fields": [
+                    {
+                      "name": "COUNTRY",
+                      "expression": "`COUNTRY`"
+                    },
+                    {
+                      "name": "monthly(event_week)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `event_week`)"
+                    },
+                    {
+                      "name": "count(riot_event_count)",
+                      "expression": "COUNT(`riot_event_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(event_week)",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(riot_event_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "COUNTRY",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "frame": {
+                "title": "Riots Time line 2023-2025 Top 10 Cities",
+                "showTitle": true
+              },
+              "mark": {
+                "layout": "layer"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 9
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
