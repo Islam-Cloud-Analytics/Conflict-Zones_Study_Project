@@ -1,0 +1,153 @@
+{
+  "datasets": [
+    {
+      "name": "1da583e3",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "SELECT\n",
+        "  COUNTRY,\n",
+        "  ADMIN1 AS city,\n",
+        "  YEAR(to_date(WEEK, 'dd-MMMM-yyyy')) AS year,\n",
+        "  COUNT(*) AS riot_count\n",
+        "FROM workspace.data_analysis_study_project.`me-conflict-zones-study-project`\n",
+        "WHERE\n",
+        "  EVENT_TYPE = 'Riots'\n",
+        "  AND to_date(WEEK, 'dd-MMMM-yyyy') >= add_months(CURRENT_DATE(), -24)\n",
+        "GROUP BY\n",
+        "  COUNTRY,\n",
+        "  city,\n",
+        "  YEAR(to_date(WEEK, 'dd-MMMM-yyyy'))\n",
+        "ORDER BY\n",
+        "  COUNTRY,\n",
+        "  city,\n",
+        "  year;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "d801a256",
+      "displayName": "Riots Upward Tendency 23-25",
+      "layout": [
+        {
+          "widget": {
+            "name": "0ed71065",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "1da583e3",
+                  "fields": [
+                    {
+                      "name": "COUNTRY",
+                      "expression": "`COUNTRY`"
+                    },
+                    {
+                      "name": "year",
+                      "expression": "`year`"
+                    },
+                    {
+                      "name": "sum(riot_count)",
+                      "expression": "SUM(`riot_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "year",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(riot_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "COUNTRY",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "frame": {
+                "title": "Riots Upward Tendency 2023-2025",
+                "showTitle": true,
+                "showDescription": false
+              },
+              "mark": {
+                "layout": "layer"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "9107120b",
+            "queries": [
+              {
+                "name": "dashboards/01f0e3a60add19ec961974fe47f420c5/datasets/01f0e3a60ade120e8c3d768c9ab604c7_city",
+                "query": {
+                  "datasetName": "1da583e3",
+                  "fields": [
+                    {
+                      "name": "city",
+                      "expression": "`city`"
+                    },
+                    {
+                      "name": "city_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "city",
+                    "queryName": "dashboards/01f0e3a60add19ec961974fe47f420c5/datasets/01f0e3a60ade120e8c3d768c9ab604c7_city"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 2,
+            "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}

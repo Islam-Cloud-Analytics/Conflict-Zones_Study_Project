@@ -1,0 +1,217 @@
+{
+  "datasets": [
+    {
+      "name": "f3645a84",
+      "displayName": "Untitled dataset",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `data_analysis_study_project`;\n",
+        "\n",
+        "WITH city_fatalities AS (\n",
+        "  SELECT \n",
+        "    COUNTRY, \n",
+        "    ADMIN1 AS CITY,\n",
+        "    any_value(CENTROID_LATITUDE) AS CENTROID_LATITUDE,\n",
+        "    any_value(CENTROID_LONGITUDE) AS CENTROID_LONGITUDE,\n",
+        "    SUM(FATALITIES) AS TOTAL_FATALITIES\n",
+        "  FROM workspace.data_analysis_study_project.`me-conflict-zones-study-project`\n",
+        "  WHERE to_date(WEEK, 'dd-MMMM-yyyy') >= date_add(current_date(), -5 * 365)\n",
+        "  GROUP BY COUNTRY, ADMIN1\n",
+        "),\n",
+        "avg_city_fatalities AS (\n",
+        "  SELECT AVG(TOTAL_FATALITIES) AS avg_fatalities\n",
+        "  FROM city_fatalities\n",
+        ")\n",
+        "SELECT \n",
+        "  COUNTRY, \n",
+        "  CITY, \n",
+        "  CENTROID_LATITUDE,\n",
+        "  CENTROID_LONGITUDE,\n",
+        "  TOTAL_FATALITIES\n",
+        "FROM city_fatalities, avg_city_fatalities\n",
+        "WHERE TOTAL_FATALITIES > avg_city_fatalities.avg_fatalities\n",
+        "ORDER BY TOTAL_FATALITIES DESC"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "7f1f80c7",
+      "displayName": "Untitled Page",
+      "layout": [
+        {
+          "widget": {
+            "name": "c1d70ea6",
+            "queries": [
+              {
+                "name": "bc9b47c5050d4a2b8030cdd18b50fb36",
+                "query": {
+                  "datasetName": "f3645a84",
+                  "fields": [
+                    {
+                      "name": "COUNTRY",
+                      "expression": "`COUNTRY`"
+                    },
+                    {
+                      "name": "CITY",
+                      "expression": "`CITY`"
+                    },
+                    {
+                      "name": "column_acb96891259",
+                      "expression": "SUM(`TOTAL_FATALITIES`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 0,
+              "viz_spec": {
+                "display_name": "Stacked fatalities past 5 yrs above average",
+                "viz_type": "CHART",
+                "serialized_options": "{\"isAggregationOn\":true,\"series\":{\"error_y\":{\"type\":\"data\",\"visible\":true},\"percentValues\":false,\"stacking\":\"stack\"},\"coefficient\":1,\"yAxis\":[{\"type\":\"-\"},{\"opposite\":true,\"type\":\"-\"}],\"columnConfigurationMap\":{\"series\":{\"column\":\"CITY\",\"id\":\"column_acb96891282\"},\"x\":{\"column\":\"COUNTRY\",\"id\":\"column_acb96891283\"},\"y\":[{\"column\":\"TOTAL_FATALITIES\",\"id\":\"column_acb96891259\",\"transform\":\"SUM\"}]},\"alignYAxesAtZero\":true,\"direction\":{\"type\":\"counterclockwise\"},\"swappedAxes\":false,\"percentFormat\":\"0[.]00%\",\"textFormat\":\"\",\"legend\":{\"traceorder\":\"normal\"},\"globalSeriesType\":\"column\",\"numBins\":10,\"version\":2,\"sizemode\":\"diameter\",\"seriesOptions\":{\"column_acb96891259\":{\"type\":\"column\",\"yAxis\":0},\"column_acb96891278\":{\"type\":\"column\",\"yAxis\":0}},\"error_y\":{\"type\":\"data\",\"visible\":true},\"sortX\":true,\"showDataLabels\":false,\"missingValuesAsZero\":true,\"useAggregationsUi\":true,\"numberFormat\":\"0,0.[00000]\",\"dateTimeFormat\":\"DD/MM/YYYY HH:mm\",\"sortY\":true,\"valuesOptions\":{},\"xAxis\":{\"labels\":{\"enabled\":true},\"type\":\"-\"}}",
+                "query_name": "bc9b47c5050d4a2b8030cdd18b50fb36"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "1937aba1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "f3645a84",
+                  "fields": [
+                    {
+                      "name": "CENTROID_LATITUDE",
+                      "expression": "`CENTROID_LATITUDE`"
+                    },
+                    {
+                      "name": "CENTROID_LONGITUDE",
+                      "expression": "`CENTROID_LONGITUDE`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "symbol-map",
+              "encodings": {
+                "coordinates": {
+                  "latitude": {
+                    "fieldName": "CENTROID_LATITUDE"
+                  },
+                  "longitude": {
+                    "fieldName": "CENTROID_LONGITUDE"
+                  }
+                }
+              },
+              "frame": {
+                "title": "Fatalities Heat Map Above Average past 5 years",
+                "showTitle": true,
+                "showDescription": false
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "f1f7b866",
+            "queries": [
+              {
+                "name": "dashboards/01f0e19c7cdd1cef8e4544b2a98cce11/datasets/01f0e19c7cde150fae59ac8c2013029b_COUNTRY",
+                "query": {
+                  "datasetName": "f3645a84",
+                  "fields": [
+                    {
+                      "name": "COUNTRY",
+                      "expression": "`COUNTRY`"
+                    },
+                    {
+                      "name": "COUNTRY_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "COUNTRY",
+                    "queryName": "dashboards/01f0e19c7cdd1cef8e4544b2a98cce11/datasets/01f0e19c7cde150fae59ac8c2013029b_COUNTRY"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Search by Country",
+                "showDescription": false
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    },
+    {
+      "name": "3b7f075b",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "653d716a",
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {},
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
